@@ -35,7 +35,7 @@ import (
 )
 
 const (
-	Image            = "docker.io/omrieival/ktunnel"
+	Image            = "artifactory.tutu.ru:443/docker-common/omrieival/ktunnel"
 	kubeConfigEnvVar = "KUBECONFIG"
 )
 
@@ -128,7 +128,6 @@ func newContainer(port int, image string, containerPorts []apiv1.ContainerPort, 
 	cpuLimit.SetMilli(cLimit)
 	memRequest.SetScaled(mReq, resource.Mega)
 	memLimit.SetScaled(mLimit, resource.Mega)
-	containerUid := int64(1000)
 
 	return &apiv1.Container{
 		Name:    "ktunnel",
@@ -146,9 +145,7 @@ func newContainer(port int, image string, containerPorts []apiv1.ContainerPort, 
 				"memory": memLimit,
 			},
 		},
-		SecurityContext: &apiv1.SecurityContext{
-			RunAsUser: &containerUid,
-		},
+		SecurityContext: &apiv1.SecurityContext{},
 	}
 }
 
